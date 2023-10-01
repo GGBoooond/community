@@ -1,0 +1,18 @@
+# 清除thymeleaf的缓存
+spring:
+  thymeleaf:
+    cache: false
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/community?useSSL=true&useUnicode=true&CharacterEncoding=UTF-8
+    username: root
+    password: uiophjklnm111
+mybatis:
+  #  指定要扫描的xxxMapper.xml
+  mapper-locations: classpath:mapper/*.xml
+
+  type-aliases-package: com.nowcoder.community.entity
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# 注:如果配置信息较多,可以考虑使用第一种
