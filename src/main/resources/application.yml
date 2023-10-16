@@ -8,6 +8,29 @@ spring:
     url: jdbc:mysql://localhost:3306/community?useSSL=true&useUnicode=true&CharacterEncoding=UTF-8
     username: root
     password: uiophjklnm111
+  #MailProperties
+  mail:
+    host: smtp.163.com
+    port: 465
+    username: 13275744008@163.com
+    password: PAQPVQIZHJUQFBNO
+    protocol: smtps
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
+      mail.smtp.ssl.enable: true
+      mail.debug: true
+    default-encoding: utf-8
+  aop:
+    auto: true
+  #RedisProperties
+  redis:
+    database: 11
+    host: localhost
+    port: 6379
+
+
 mybatis:
   #  指定要扫描的xxxMapper.xml
   mapper-locations: classpath:mapper/*.xml
@@ -16,3 +39,11 @@ mybatis:
 #  configuration:
 #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # 注:如果配置信息较多,可以考虑使用第一种
+
+# 定义域名domain
+community:
+  path.domain: http://localhost:8080
+  path.upload: E:\work\data\community\upload
+server:
+  servlet:
+    context-path: "/community"

@@ -3,10 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.nowcoder.community.mapper.UserMapper">
+    <insert id="insertUser" parameterType="User">
+        INSERT INTO user (id, username, password, salt, email, type, status,activation_code, header_url, create_time)
+        VALUES (#{id}, #{username}, #{password}, #{salt}, #{email}, #{type}, #{status},#{activation_code} ,#{header_url}, #{create_time})
+    </insert>
+    <update id="updateStatus"  >
+        UPDATE user
+        set status= #{status}
+        where `id`=#{id}
+    </update>
 
     <select id="findUserByID" resultType="User">
         select *
         from user
         where id=#{id}
     </select>
+    <select id="findUserByEmail" resultType="User">
+        select *
+        from user
+        where id=#{id}
+    </select>
+    <select id="findUserByUsername" resultType="User">
+        select *
+        from user
+        where username=#{username}
+    </select>
+
 </mapper>

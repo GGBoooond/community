@@ -4,6 +4,7 @@ import com.nowcoder.community.entity.DiscussPost;
 import com.nowcoder.community.entity.Page;
 import com.nowcoder.community.entity.User;
 import com.nowcoder.community.service.DiscussPostService;
+import com.nowcoder.community.service.LikeService;
 import com.nowcoder.community.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,8 @@ public class HomeController {
     private UserService userService;
     @Resource
     private DiscussPostService discussPostService;
+    @Resource
+    private LikeService likeService;
     @RequestMapping(path= "/index",method = RequestMethod.GET)
     public String getIndexPage(Model model,Page page){
         page.setPath("/index");
@@ -46,8 +49,13 @@ public class HomeController {
             User user = userService.findUserByID(discussPost.getUser_id());
             map.put("user",user);
             discussPosts.add(map);
+            //获取赞数
+            long likeCount=likeService.likeCount(1,discussPost.getId());
+            map.put("likeCount",likeCount);
         }
         model.addAttribute("discussPosts",discussPosts);
         return "index";
     }
+
+
 }

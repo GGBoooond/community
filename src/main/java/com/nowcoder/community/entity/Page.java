@@ -18,7 +18,7 @@ public class Page {
     private String path;
     //获取总页数
     public int getPagesNum(){
-        return (rows / limit)!=0 ? (rows/limit) :0;
+        return (rows / limit)!=0 ? (rows/limit)+1 :0;
     }
     //获取当前页码
     public int getCurrent() {
@@ -32,7 +32,7 @@ public class Page {
     }
     //获取显示的起始行
     public int getOffset(){
-        return current==1 ? 0 :current*limit +1;
+        return current<1 ? 0 :(current-1)*limit ;
     }
     //获取下标栏页面显示的最左边
     public int getLeft(){
