@@ -2,6 +2,8 @@ package com.nowcoder.community.controller;
 
 import com.nowcoder.community.annotation.LoginRequired;
 import com.nowcoder.community.entity.User;
+import com.nowcoder.community.service.FollowService;
+import com.nowcoder.community.service.LikeService;
 import com.nowcoder.community.service.UserService;
 import com.nowcoder.community.util.CommunityUtil;
 import com.nowcoder.community.util.HostHolder;
@@ -22,6 +24,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author wxx
@@ -47,6 +51,10 @@ public class UserController {
 
     @Resource
     private HostHolder hostHolder;
+    @Resource
+    private LikeService likeService;
+    @Resource
+    private FollowService followService;
 
     @LoginRequired
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
@@ -111,6 +119,29 @@ public class UserController {
             log.error("读取头像失败: " + e.getMessage());
         }
     }
+    @RequestMapping(value = "/profile/{userId}",method = RequestMethod.GET)
+    public String getProfilePage(@PathVariable("userId") int userId,Model model){
+        User user = userService.findUserByID(userId);
+        if(user==null)
+            throw new RuntimeException("用户不存在");
+        Map<String,Object> map=new HashMap<>();
+        map.put("user",user);
+        //获得赞数
+        map.put("likeCountSum",likeService.UserlikeCountSum(userId));
+        //关注人数
+        map.put("followCount",followService.followCount(userId,3));
+        //粉丝人数
+        map.put("followerCount",followService.followerCount(userId,3));
 
+        map.put("loginUser",hostHolder.getUser());
+        //是否已经关注
+        boolean hasFollowed=false;
+        if(hostHolder.getUser()!=null){
+            hasFollowed=followService.isFollowed(hostHolder.getUser().getId(),user.getId(),3);
+        }
+        map.put("hasFollowed",hasFollowed);
+        model.addAttribute("map",map);
+        return "/site/profile";
+    }
 }
 

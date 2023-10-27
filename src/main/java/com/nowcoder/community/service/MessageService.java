@@ -26,4 +26,13 @@ public interface MessageService {
     int insertLetter(Message message);
 
     int updateLetterStatus(List<Integer> ids,int status);
+    //查询系统通知的数量
+    int selectAllNoticeCount(int userId, String topic);
+    //查询未读的系统通知的数量
+    int selectUnreadNoticeCount(int userId, String topic);
+    //返回最近的一条通知
+    Message selectLatestNotice(int userId,String topic);
+
+    //返回指定类型的通知
+    List<Message> selectNotices(int userId,String topic,int offset,int limit);
 }

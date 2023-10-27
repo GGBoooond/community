@@ -2,6 +2,7 @@ package com.nowcoder.community.config;
 
 import com.nowcoder.community.controller.Interceptor.LoginRequiredInterceptor;
 import com.nowcoder.community.controller.Interceptor.LoginTicketInterceptor;
+import com.nowcoder.community.controller.Interceptor.MessageInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,6 +19,8 @@ public class InterceptorConfig implements WebMvcConfigurer{
     private LoginTicketInterceptor loginTicketInterceptor;
     @Resource
     private LoginRequiredInterceptor loginRequiredInterceptor;
+    @Resource
+    private MessageInterceptor messageInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -31,6 +34,9 @@ public class InterceptorConfig implements WebMvcConfigurer{
                 //设置不拦截的路径
                 .excludePathPatterns("/**/*.js","/**/*.css","/**/*.png","/**/*.jpg","/**/*.jpeg");
         registry.addInterceptor(loginRequiredInterceptor)
+                .addPathPatterns("/**")
+                .addPathPatterns("/**/*.js","/**/*.css","/**/*.png","/**/*.jpg","/**/*.jpeg");
+        registry.addInterceptor(messageInterceptor)
                 .addPathPatterns("/**")
                 .addPathPatterns("/**/*.js","/**/*.css","/**/*.png","/**/*.jpg","/**/*.jpeg");
     }

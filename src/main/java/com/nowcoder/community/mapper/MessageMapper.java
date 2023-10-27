@@ -32,4 +32,14 @@ public interface MessageMapper {
 
     //更新私信的状态
     int updateLetterStatus(List<Integer> ids,int status);
+    //查询指定类型的系统通知的数量
+    int selectAllNoticeCount(int userId, String topic);
+    //查询指定类型的未读的系统通知的数量
+    //如果conversationId 为null，则查询所有未读的系统通知
+    int selectUnreadNoticeCount(int userId, String topic);
+    //返回最近的一条通知
+    Message selectLatestNotice(int userId,String topic);
+
+    //返回指定类型的通知
+    List<Message> selectNotices(int userId,String topic,int offset,int limit);
 }

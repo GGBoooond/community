@@ -75,7 +75,7 @@
 				</h6>
 				<!-- 作者 -->
 				<div class="media pb-3 border-bottom">
-					<a href="profile.html">
+					<a th:href="@{|/user/profile/${map.writer.id}|}">
 						<img th:src="${map.writer.header_url}" class="align-self-start mr-4 rounded-circle user-header" alt="用户头像" >
 					</a>
 					<div class="media-body">
@@ -84,7 +84,7 @@
 							发布于 <b th:text="${#dates.format(map.post.create_time,'yyyy-MM-dd HH:mm:ss')}">2019-04-15 15:32:18</b>
 							<ul class="d-inline float-right">
 								<li class="d-inline ml-2">
-									<a href="javascript:;" th:onclick="|like(this,1,${map.post.id});|" class="text-primary">
+									<a href="javascript:;" th:onclick="|like(this,1,${map.post.id},${map.writer.id},${map.post.id});|" class="text-primary">
 										<b th:text="${map.likeStatus==1?'已赞':'赞'}">赞</b>  <i th:text="${map.likeCount}">11</i>
 									</a>
 								</li>
@@ -119,7 +119,7 @@
 				<ul class="list-unstyled mt-4" >
 					<!-- 第1条回帖 -->
 					<li class="media pb-3 pt-3 mb-3 border-bottom" th:each="commentVO:${commentVOList}">
-						<a href="profile.html">
+						<a th:href="@{|/user/profile/${commentVO.user.id}|}">
 							<img th:src="${commentVO.user.header_url}" class="align-self-start mr-4 rounded-circle user-header" alt="用户头像" >
 						</a>
 						<div class="media-body">
@@ -136,7 +136,7 @@
 								<span>发布于 <b th:text="${#dates.format(commentVO.comment.create_time,'yyyy-MM-dd HH:mm:ss')}">2019-04-15 15:32:18</b></span>
 								<ul class="d-inline float-right">
 									<li class="d-inline ml-2">
-										<a href="javascript:;" th:onclick="|like(this,2,${commentVO.comment.id});|" class="text-primary">
+										<a href="javascript:;" th:onclick="|like(this,2,${commentVO.comment.id},${commentVO.user.id},${map.post.id});|" class="text-primary">
 											<b th:text="${commentVO.likeStatus==1?'已赞':'赞'}">赞</b>(<i th:text="${commentVO.likeCount}">1</i>)
 										</a>
 									</li>
@@ -158,7 +158,7 @@
 										2019-04-15 15:32:18</span>
 										<ul class="d-inline float-right">
 											<li class="d-inline ml-2">
-												<a href="javascript:;" th:onclick="|like(this,2,${replyVO.reply.id});|" class="text-primary">
+												<a href="javascript:;" th:onclick="|like(this,2,${replyVO.reply.id},${replyVO.user.id},${map.post.id});|" class="text-primary">
 													<b th:text="${replyVO.likeStatus==1?'已赞':'赞'}">赞</b>(<i th:text="${replyVO.likeCount}">1</i>)
 												</a>
 											</li>

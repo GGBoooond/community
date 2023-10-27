@@ -16,11 +16,12 @@ import java.util.Date;
 public class Comment {
     private int id;
     private int user_id;
-    //类型（1 回帖 2  回复）
+    //类型（1 回帖 2  回复  ）
     private int entity_type;
-    //评论对象的id
+    //评论对象 的id
     private int entity_id;
-    //评论对象的用户的id（用于标记回复）
+
+    //评论对象 的用户的id（用于标记回复）
     private int target_id;
     private String content;
     private int status;

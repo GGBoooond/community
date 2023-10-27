@@ -53,6 +53,7 @@
         </if>
     </select>
 
+
     <insert id="insertLetter" parameterType="com.nowcoder.community.entity.Message">
         insert into message(from_id,to_id,conversation_id,content,status,create_time)
         values(#{from_id},#{to_id},#{conversation_id},#{content},#{status},#{create_time})
@@ -66,4 +67,42 @@
             #{id}
         </foreach>
     </update>
+
+    <select id="selectAllNoticeCount" resultType="java.lang.Integer">
+        SELECT COUNT(id) from message
+        WHERE
+        `status`!=2
+        AND from_id= 1
+        AND to_id=#{userId}
+        AND conversation_id=#{topic}
+    </select>
+    <select id="selectUnreadNoticeCount" resultType="java.lang.Integer">
+        SELECT COUNT(id) from message
+        WHERE
+        from_id= 1
+        AND to_id=#{userId}
+        AND `status`= 0
+        <if test="topic!=null">
+            AND conversation_id=#{topic}
+        </if>
+    </select>
+    <select id="selectLatestNotice" resultType="com.nowcoder.community.entity.Message">
+        SELECT <include refid="selectFeilds"></include>
+        FROM message
+        WHERE id in(
+            SELECT max(id) from message
+            where `status`!=2
+            AND from_id= 1
+            AND to_id=#{userId}
+            AND conversation_id=#{topic}
+        )
+    </select>
+    <select id="selectNotices" resultType="com.nowcoder.community.entity.Message">
+        SELECT * from message
+        WHERE
+        `status`!=2  AND from_id =1 AND to_id=#{userId}
+        AND conversation_id=#{topic}
+        ORDER BY id desc
+        LIMIT #{offset},#{limit}
+    </select>
 </mapper>

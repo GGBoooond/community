@@ -21,9 +21,15 @@ public interface UserService {
 
     Map<String,Object> login(String username,String password,int expired_time);
 
-    int logout(String ticket);
+    void logout(String ticket);
 
     LoginTicket selectByTicket(String ticket);
 
     int  updateHeader(int id, String headerUrl);
+
+    User getCache(int userId);
+    User initCache(int userId);
+
+    void clearCache(int userId);
+
 }

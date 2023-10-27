@@ -38,8 +38,7 @@ public class HomeController {
     public String getIndexPage(Model model,Page page){
         page.setPath("/index");
         page.setRows(discussPostService.selectDiscussPostRows(0));
-        //page.setCurrent(current);
-        log.info("left"+page.getLeft()+"    right"+page.getRight());
+
         ArrayList<Map<String,Object>> discussPosts= new ArrayList<>();
         List<DiscussPost> list =
                 discussPostService.selectDiscussPosts(0, page.getOffset(), page.getLimit());
