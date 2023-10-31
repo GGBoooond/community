@@ -3,6 +3,9 @@ package com.nowcoder.community.event;
 import com.alibaba.fastjson.JSONObject;
 import com.nowcoder.community.entity.Event;
 import com.nowcoder.community.entity.Message;
+import com.nowcoder.community.mapper.DiscussPostMapper;
+import com.nowcoder.community.service.DiscussPostService;
+import com.nowcoder.community.service.ElasticSearchService;
 import com.nowcoder.community.service.MessageService;
 import com.nowcoder.community.util.CommunityConstant;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,10 @@ public class EventComsumer implements CommunityConstant {
 
     @Resource
     private MessageService messageService;
+
+    @Resource
+    private ElasticSearchService elasticSearchService;
+
 
     @KafkaListener(topics = {TOPIC_COMMENT,TOPIC_LIKE,TOPIC_FOLLOW})
     public void handleEvent(ConsumerRecord record){
@@ -56,5 +63,20 @@ public class EventComsumer implements CommunityConstant {
         }
         message.setContent(JSONObject.toJSONString(content));
         messageService.insertLetter(message);
+    }
+
+    @KafkaListener(topics = {TOPIC_PUBLISH})
+    public void handlePostToEs(ConsumerRecord record){
+        if(record==null || record.value()==null){
+            log.error("消息不能为空");
+            return;
+        }
+        Event event= JSONObject.parseObject(record.value().toString(),Event.class);
+        if(event==null){
+            log.error("消息格式错误");
+        }
+        int id = event.getEntityId();
+
+        elasticSearchService.insertPostIntoES(id);
     }
 }

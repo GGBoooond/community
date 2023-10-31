@@ -1,6 +1,7 @@
 package com.nowcoder.community.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.nowcoder.community.annotation.LoginRequired;
 import com.nowcoder.community.entity.Message;
 import com.nowcoder.community.entity.Page;
 import com.nowcoder.community.entity.User;
@@ -32,7 +33,9 @@ public class MessageController implements CommunityConstant {
     private MessageService messageService;
     @Resource
     private HostHolder hostHolder;
+
     //获得私信列表 --每个会话只展示最新的一条消息
+    @LoginRequired
     @RequestMapping(value = "/letter/list",method = RequestMethod.GET)
     public String getLetterList(Model model, Page page){
         User user = hostHolder.getUser();
